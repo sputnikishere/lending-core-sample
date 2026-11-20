@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CachedCollectorRoster implements ICollectorRoster {
+public class CachedCollectorRoster implements CollectorRoster {
 
     private final EmployeeClient employeeClient;
     private final CollectionProperties properties;

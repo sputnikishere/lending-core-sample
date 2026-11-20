@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LeastLoadedCollectionAssigner implements ICollectionAssigner {
+public class LeastLoadedCollectionAssigner implements CollectionAssigner {
 
-    private final ICollectorRoster collectorRoster;
+    private final CollectorRoster collectorRoster;
     private final CollectionApplicationRepository collectionApplicationRepository;
 
     @Override

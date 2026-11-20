@@ -19,7 +19,7 @@ class PDLPaymentPlanCalculationStrategyTest {
             new PDLPaymentPlanCalculationStrategy(new StandardPaymentDateProvider());
 
     @Test
-    void test_PDL_1() {
+    void fourteenThousandOverThirteenDays_singlePaymentWithInterest() {
 
         // PDL: amount 14,000, 13 days, 0.8% per day,
         // start 2025-08-15, maturity 2025-08-28
@@ -35,7 +35,7 @@ class PDLPaymentPlanCalculationStrategyTest {
     }
 
     @Test
-    void test_PDL_2() {
+    void tenThousandOverTenDays_singlePaymentWithInterest() {
 
         // PDL: amount 10,000, 10 days, 0.8% per day,
         // start 2025-08-15, maturity 2025-08-25

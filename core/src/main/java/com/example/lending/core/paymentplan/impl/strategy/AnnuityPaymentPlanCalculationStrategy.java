@@ -89,14 +89,14 @@ public class AnnuityPaymentPlanCalculationStrategy implements PaymentPlanCalcula
             BigDecimal interestPaid = payment.min(interestAccrued.setScale(2, RoundingMode.UP));
             interestAccrued = interestAccrued.subtract(interestPaid, mc);
 
-            BigDecimal mainPay = payment.subtract(interestPaid, mc);
-            if (mainPay.compareTo(remaining) > 0) {
-                mainPay = remaining;
+            BigDecimal principalPaid = payment.subtract(interestPaid, mc);
+            if (principalPaid.compareTo(remaining) > 0) {
+                principalPaid = remaining;
             }
-            remaining = remaining.subtract(mainPay, mc);
+            remaining = remaining.subtract(principalPaid, mc);
 
             paymentPlanSteps.add(new PaymentPlanData.PaymentPlanStepData(
-                    payDate, payment, mainPay, interestPaid, remaining));
+                    payDate, payment, principalPaid, interestPaid, remaining));
 
             cursor = payDate.plusDays(1);
         }

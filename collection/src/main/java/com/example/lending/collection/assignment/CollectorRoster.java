@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Registry of collector employees available for case assignment.
  */
-public interface ICollectorRoster {
+public interface CollectorRoster {
 
     /**
      * Returns the current list of collectors. The implementation caches the response - assignment

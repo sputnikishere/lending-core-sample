@@ -39,8 +39,9 @@ collection/    com.example.lending.collection
 
 ### `calculations.executor` — background processing
 - **Per-loan locking.** A fixed worker pool drains a blocking queue; every calculation runs
-  under a per-loan `ReentrantLock`, so different loans are processed in parallel while updates
-  to the same loan are serialized. Synchronous (API-triggered) calls use the same lock path.
+  under its loan's lock, so different loans are processed in parallel while updates to the same
+  loan are serialized. Locks are striped (a fixed array indexed by loan id), so memory stays
+  bounded regardless of portfolio size. Synchronous (API-triggered) calls use the same lock path.
 - Graceful shutdown with a configurable drain timeout.
 
 ### `collection.assignment` — collections

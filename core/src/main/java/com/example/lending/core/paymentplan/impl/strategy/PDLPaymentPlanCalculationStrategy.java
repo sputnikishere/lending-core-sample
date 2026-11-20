@@ -40,16 +40,16 @@ public class PDLPaymentPlanCalculationStrategy implements PaymentPlanCalculation
         }
 
         LocalDate dayCounter = startDate;
-        BigDecimal percentAmount = BigDecimal.ZERO;
+        BigDecimal interestAmount = BigDecimal.ZERO;
         while (dayCounter.isBefore(paymentDates.getFirst())) {
-            percentAmount = percentAmount.add(loanAmount.multiply(product.getRateDaily()).setScale(2, RoundingMode.UP));
+            interestAmount = interestAmount.add(loanAmount.multiply(product.getRateDaily()).setScale(2, RoundingMode.UP));
             dayCounter = dayCounter.plusDays(1);
         }
 
-        BigDecimal mainAmount = loanAmount.setScale(2, RoundingMode.DOWN);
-        percentAmount = percentAmount.setScale(2, RoundingMode.DOWN);
+        BigDecimal principalAmount = loanAmount.setScale(2, RoundingMode.DOWN);
+        interestAmount = interestAmount.setScale(2, RoundingMode.DOWN);
 
-        PaymentPlanData.PaymentPlanStepData stepData = getPaymentPlanStepData(paymentDates.getFirst(), mainAmount, percentAmount);
+        PaymentPlanData.PaymentPlanStepData stepData = getPaymentPlanStepData(paymentDates.getFirst(), principalAmount, interestAmount);
 
         paymentPlanData.setPaymentPlanSteps(List.of(stepData));
 
@@ -71,32 +71,32 @@ public class PDLPaymentPlanCalculationStrategy implements PaymentPlanCalculation
         }
         LocalDate lastDate = futureDates.getFirst();
         LocalDate dayCounter = startDate.plusDays(1);
-        BigDecimal percentAmount = BigDecimal.ZERO;
+        BigDecimal interestAmount = BigDecimal.ZERO;
         while (dayCounter.isBefore(lastDate)) {
-            percentAmount = percentAmount.add(loanAmount.multiply(dailyRate).setScale(2, RoundingMode.UP));
+            interestAmount = interestAmount.add(loanAmount.multiply(dailyRate).setScale(2, RoundingMode.UP));
             dayCounter = dayCounter.plusDays(1);
         }
-        percentAmount = percentAmount.setScale(2, RoundingMode.DOWN);
-        BigDecimal mainAmount = loanAmount.setScale(2, RoundingMode.DOWN);
+        interestAmount = interestAmount.setScale(2, RoundingMode.DOWN);
+        BigDecimal principalAmount = loanAmount.setScale(2, RoundingMode.DOWN);
 
         PaymentPlanData data = new PaymentPlanData();
-        data.setPaymentPlanSteps(List.of(getPaymentPlanStepData(lastDate, mainAmount, percentAmount)));
+        data.setPaymentPlanSteps(List.of(getPaymentPlanStepData(lastDate, principalAmount, interestAmount)));
         return data;
     }
 
-    private static PaymentPlanData.PaymentPlanStepData getPaymentPlanStepData(LocalDate paymentDate, BigDecimal mainAmount, BigDecimal percentAmount) {
+    private static PaymentPlanData.PaymentPlanStepData getPaymentPlanStepData(LocalDate paymentDate, BigDecimal principalAmount, BigDecimal interestAmount) {
         PaymentPlanData.PaymentPlanStepData stepData = new PaymentPlanData.PaymentPlanStepData();
         stepData.setPaymentDate(paymentDate);
-        stepData.setMainAmount(mainAmount);
-        stepData.setPaymentAmount(mainAmount);
-        stepData.setMainDebtRemaining(BigDecimal.ZERO);
+        stepData.setPrincipalAmount(principalAmount);
+        stepData.setPaymentAmount(principalAmount);
+        stepData.setPrincipalRemaining(BigDecimal.ZERO);
 
 
-        if (percentAmount.compareTo(BigDecimal.ZERO) > 0) {
-            stepData.setPercentAmount(percentAmount);
-            stepData.setPaymentAmount(stepData.getPaymentAmount().add(percentAmount));
+        if (interestAmount.compareTo(BigDecimal.ZERO) > 0) {
+            stepData.setInterestAmount(interestAmount);
+            stepData.setPaymentAmount(stepData.getPaymentAmount().add(interestAmount));
         } else {
-            stepData.setPercentAmount(BigDecimal.ZERO);
+            stepData.setInterestAmount(BigDecimal.ZERO);
         }
         return stepData;
     }

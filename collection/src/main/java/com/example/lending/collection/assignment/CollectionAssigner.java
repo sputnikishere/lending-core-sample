@@ -7,7 +7,7 @@ import com.example.lending.collection.domain.CollectionApplication;
  * A dedicated interface leaves room to replace the assignee selection rule
  * (e.g. with a BPMN process in the workflow service) without touching the rest of the code.
  */
-public interface ICollectionAssigner {
+public interface CollectionAssigner {
 
     /**
      * Selects and sets the assignee of a case.

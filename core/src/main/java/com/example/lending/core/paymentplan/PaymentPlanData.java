@@ -31,9 +31,9 @@ public class PaymentPlanData {
         @JsonFormat(pattern = DateTimeUtils.DATE_PATTERN)
         private LocalDate paymentDate;
         private BigDecimal paymentAmount;
-        private BigDecimal mainAmount;
-        private BigDecimal percentAmount;
-        private BigDecimal mainDebtRemaining;
+        private BigDecimal principalAmount;
+        private BigDecimal interestAmount;
+        private BigDecimal principalRemaining;
     }
 
     public PaymentPlanStepData findNearestOrLatestPaymentPlanStateData(LocalDate target) {
